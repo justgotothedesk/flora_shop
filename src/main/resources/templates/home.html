@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쇼핑몰 홈 화면</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            font-size: 2em; /* 큰 글자 크기 */
+            margin-bottom: 20px;
+            margin-left: 10%;
+            margin-top: 3%;
+            color: #333; /* 글자 색상 */
+            font-family: 'Times New Roman', serif; /* 글꼴 설정 */
+            text-shadow: 2px 2px 2px #888; /* 그림자 효과 */
+            letter-spacing: 2px; /* 글자 간격 */
+            text-transform: uppercase; /* 대문자 변환 */
+        }
+
+        p1 {
+            font-size: 1.2em;
+            margin-top: 20%;
+            margin-left: 15%;
+        }
+
+        /* 추가된 스타일 */
+        .login-buttons {
+            position: absolute;
+            top: 7%;
+            right: 14%;
+            margin: 10px;
+        }
+
+        .tail {
+            position: absolute;
+            bottom: 1%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .login-buttons a {
+            margin-right: 10px;
+        }
+
+        tail {
+            margin-top: 0%;
+            margin-left: 50%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Flora_Shop</h1>
+</header>
+
+<section>
+    <p1>환영합니다! 최신 상품을 확인하세요.</p1>
+    <!-- 여기에 상품 목록이나 다른 콘텐츠를 추가하세요. -->
+</section>
+
+<!-- 수정된 로그인 버튼 위치 -->
+<div class="login-buttons">
+    <a th:if="${loggedIn}" href="/logout">로그아웃</a>
+    <a th:if="${loggedIn}" href="/info">내 정보</a>
+
+    <a th:unless="${loggedIn}" href="/register">회원가입</a>
+    <a th:unless="${loggedIn}" href="/login">로그인</a>
+</div>
+
+<div class="tail">
+    <p>&copy; 2024 flora_shop. All right reserved.</p>
+</div>
+</body>
+</html>
