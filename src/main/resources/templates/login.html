@@ -74,14 +74,21 @@
       display: inline-block;
     }
 
+    .google-login-button {
+      background-color: #4285F4;
+      color: #ffffff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
     .tail {
       position: absolute;
       bottom: 1%;
       left: 50%;
       transform: translateX(-50%);
     }
-
-
   </style>
 </head>
 <body>
@@ -97,11 +104,13 @@
     <input type="password" id="password" name="password" required>
     <input type="submit" value="로그인">
     <a href="/register">회원가입</a>
+    <a href="/oauth2/authorization/google">google login</a>
   </form>
 </div>
 
 <div class="tail">
   <p>&copy; 2024 flora_shop. All right reserved.</p>
 </div>
+
 </body>
 </html>
