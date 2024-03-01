@@ -1,6 +1,6 @@
 package com.example.flora_shop.controller;
 
-import com.example.flora_shop.domain.User;
+import com.example.flora_shop.config.oauth.SessionUser;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,16 +8,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-    @GetMapping("/")
-    public String home(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+    private final HttpSession httpSession;
 
+    public HomeController(HttpSession httpSession) {
+        this.httpSession = httpSession;
+    }
+
+    @GetMapping("/")
+    public String home(Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if (user != null) {
-            model.addAttribute("loggedIn", true);
-        } else {
-            model.addAttribute("loggedIn", false);
+            model.addAttribute("userName", user.getName());
         }
 
         return "home";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }
