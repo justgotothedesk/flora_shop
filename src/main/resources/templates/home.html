@@ -67,13 +67,21 @@
     <!-- 여기에 상품 목록이나 다른 콘텐츠를 추가하세요. -->
 </section>
 
-<!-- 수정된 로그인 버튼 위치 -->
-<div class="login-buttons">
-    <a th:if="${loggedIn}" href="/logout">로그아웃</a>
-    <a th:if="${loggedIn}" href="/info">내 정보</a>
+<!--&lt;!&ndash; 수정된 로그인 버튼 위치 &ndash;&gt;-->
+<!--<div class="login-buttons">-->
+<!--    <a th:if="${loggedIn}" href="/logout">로그아웃</a>-->
+<!--    <a th:if="${loggedIn}" href="/info">내 정보</a>-->
 
-    <a th:unless="${loggedIn}" href="/register">회원가입</a>
-    <a th:unless="${loggedIn}" href="/login">로그인</a>
+<!--    <a th:unless="${loggedIn}" href="/register">회원가입</a>-->
+<!--    <a th:unless="${loggedIn}" href="/login">로그인</a>-->
+<!--</div>-->
+
+<div th:if="${userName}">
+    <a th:href="@{/logout}" class="btn btn-info active" role="button">로그아웃</a>
+    <label th:text="${userName} + 님"></label>
+</div>
+<div th:if="!${userName}">
+    <a th:href="@{/oauth2/authorization/google}" class="btn btn-primary me-2 active" role="button">로그인</a>
 </div>
 
 <div class="tail">
