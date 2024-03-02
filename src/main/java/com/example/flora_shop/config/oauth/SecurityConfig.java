@@ -30,22 +30,23 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/posts/new", "/comments/save").hasRole(Role.USER.name())
-                        .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login/*", "/logout/*", "/posts/**", "/comments/**").permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/oauth2/authorization/google").permitAll()
+                        .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login", "/logout/*", "/posts/**", "/comments/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout( // 로그아웃 성공 시 / 주소로 이동
                         (logoutConfig) -> logoutConfig.logoutSuccessUrl("/")
                 )
                 // OAuth2 로그인 기능에 대한 여러 설정
-                .oauth2Login(Customizer.withDefaults()); // 아래 코드와 동일한 결과
-        /*
-                .oauth2Login(
-                        (oauth) ->
-                            oauth.userInfoEndpoint(
-                                    (endpoint) -> endpoint.userService(customOAuth2UserService)
-                            )
+                .oauth2Login(oauth2Login ->
+                        oauth2Login
+                                .loginPage("/oauth2/authorization/google")  // 로그인 페이지 설정
+                                .userInfoEndpoint(userInfoEndpoint ->
+                                        userInfoEndpoint
+                                                .userService(customOAuth2UserService)
+                                )
                 );
-        */
 
         return http.build();
     }
