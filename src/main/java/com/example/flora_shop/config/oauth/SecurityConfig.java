@@ -30,7 +30,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/posts/new", "/comments/save").hasRole(Role.USER.name())
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/login", "/register", "/login").permitAll()
                         .requestMatchers("/oauth2/authorization/google").permitAll()
                         .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login", "/logout/*", "/posts/**", "/comments/**").permitAll()
                         .anyRequest().authenticated()
@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .logout( // 로그아웃 성공 시 / 주소로 이동
                         (logoutConfig) -> logoutConfig.logoutSuccessUrl("/")
                 )
+
                 // OAuth2 로그인 기능에 대한 여러 설정
                 .oauth2Login(oauth2Login ->
                         oauth2Login
