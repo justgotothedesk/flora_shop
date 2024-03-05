@@ -1,6 +1,7 @@
 package com.example.flora_shop.service;
 
 import com.example.flora_shop.domain.Normal_User;
+import com.example.flora_shop.domain.Role;
 import com.example.flora_shop.repository.NormalUserRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class NormalUserService {
     }
 
     public Long create(Normal_User normal_user) {
+        normal_user.setRole(Role.USER);
         normalUserRepository.save(normal_user);
         return normal_user.getId();
     }

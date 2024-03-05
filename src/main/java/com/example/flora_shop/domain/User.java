@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +28,9 @@ public class User {
 
     @Enumerated(EnumType.STRING) // Enum 타입은 문자열 형태로 저장해야 함
     private Role role;
+
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    private List<Item> items;
 
     @Builder
     public User(String name, String email, String picture, Role role) {

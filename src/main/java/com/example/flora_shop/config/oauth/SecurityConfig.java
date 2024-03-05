@@ -29,7 +29,7 @@ public class SecurityConfig {
                         )
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
-                        .requestMatchers("/posts/new", "/comments/save").hasRole(Role.USER.name())
+                        .requestMatchers("/upload", "/comments/save").hasRole(Role.USER.name())
                         .requestMatchers("/login", "/register", "/login").permitAll()
                         .requestMatchers("/oauth2/authorization/google").permitAll()
                         .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login", "/logout/*", "/posts/**", "/comments/**").permitAll()
