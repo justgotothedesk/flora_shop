@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 등록 화면</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            font-size: 2em; /* 큰 글자 크기 */
+            margin-bottom: 20px;
+            margin-left: 10%;
+            margin-top: 3%;
+            color: #333; /* 글자 색상 */
+            font-family: 'Times New Roman', serif; /* 글꼴 설정 */
+            text-shadow: 2px 2px 2px #888; /* 그림자 효과 */
+            letter-spacing: 2px; /* 글자 간격 */
+            text-transform: uppercase; /* 대문자 변환 */
+        }
+
+        .login-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background-color: #fff;
+            padding: 40px; /* 크기 조절 */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container label {
+            font-size: 1em;
+            margin-bottom: 5px;
+            align-self: flex-start; /* 왼쪽 위에 배치 */
+        }
+
+        .login-container input {
+            padding: 10px; /* 크기 조절 */
+            margin-bottom: 20px; /* 간격 조절 */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container input[type="submit"] {
+            background-color: #000000;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .login-container input[type="submit"]:hover {
+            background-color: #000000;
+        }
+
+        .login-container a {
+            font-size: 1em;
+            text-decoration: none;
+            color: #000000;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .google-login-button {
+            background-color: #4285F4;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .tail {
+            position: absolute;
+            bottom: 1%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Flora_Shop</h1>
+</header>
+
+<div class="login-container">
+    <form action="/upload" method="post">
+        <label for="name">상품명</label>
+        <input type="text" id="name" name="name" required>
+        <label for="price">상품 가격</label>
+        <input type="number" id="price" name="price" required>
+        <label for="description">상품 설명</label>
+        <input type="text" id="description" name="description" required>
+        <input type="submit" value="등록">
+    </form>
+</div>
+
+<div class="tail">
+    <p>&copy; 2024 flora_shop. All right reserved.</p>
+</div>
+
+</body>
+</html>

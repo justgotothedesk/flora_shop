@@ -71,6 +71,7 @@
     <div th:if="${userName}">
         <label th:text="${userName} + '님'"></label>
         <a th:href="@{/logout}" class="btn btn-info active" role="button">로그아웃</a>
+        <a th:href="@{/upload}" class="btn btn-info active" role="button">상품 등록하기</a>
     </div>
     <div th:if="!${userName}">
         <a th:href="@{/login}" class="btn btn-primary me-2 active" role="button">로그인</a>

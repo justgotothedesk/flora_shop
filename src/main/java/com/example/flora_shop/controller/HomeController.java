@@ -69,4 +69,9 @@ public class HomeController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/upload")
+    public String uploadPage() {
+        return "upload";
+    }
 }
