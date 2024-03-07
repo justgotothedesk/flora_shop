@@ -1,13 +1,14 @@
 package com.example.flora_shop.controller;
 
 import com.example.flora_shop.config.oauth.SessionUser;
-import com.example.flora_shop.domain.Normal_User;
-import com.example.flora_shop.service.NormalUserService;
+import com.example.flora_shop.domain.Role;
+import com.example.flora_shop.domain.User;
+import com.example.flora_shop.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,21 +17,18 @@ import java.util.Optional;
 @Controller
 public class HomeController {
     private final HttpSession httpSession;
-    private final NormalUserService normalUserService;
+    private final UserService userService;
 
-    public HomeController(HttpSession httpSession, NormalUserService normalUserService) {
+    public HomeController(HttpSession httpSession, UserService userService) {
         this.httpSession = httpSession;
-        this.normalUserService = normalUserService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
     public String home(Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        Normal_User nuser = (Normal_User) httpSession.getAttribute("nuser");
         if (user != null) {
             model.addAttribute("userName", user.getName());
-        } else if (nuser != null) {
-            model.addAttribute("userName", nuser.getName());
         }
 
         return "home";
@@ -43,11 +41,10 @@ public class HomeController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
-        Optional<Normal_User> userOptional = normalUserService.findbyIDandPassword(username, password);
-
+        Optional<User> userOptional = userService.findByIDandPassword(username, password);
         if(userOptional.isPresent()) {
-            Normal_User normal_user = userOptional.get();
-            httpSession.setAttribute("nuser", normal_user);
+            User user = userOptional.get();
+            httpSession.setAttribute("user", new SessionUser(user));
             return "redirect:/";
         } else {
             return "redirect:/login?error";
@@ -61,11 +58,8 @@ public class HomeController {
 
     @PostMapping("/register")
     public String create(UserForm userForm) {
-        Normal_User normal_user = new Normal_User();
-        normal_user.setName(userForm.getName());
-        normal_user.setUsername(userForm.getUsername());
-        normal_user.setPassword(userForm.getPassword());
-        normalUserService.create(normal_user);
+        User user = new User(userForm.getName(), "none", "none", Role.USER, userForm.getUsername(), userForm.getPassword());
+        userService.create(user);
 
         return "redirect:/";
     }

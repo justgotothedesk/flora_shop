@@ -20,8 +20,9 @@ public class User {
     private Long id;
 
     private String name;
-
     private String email;
+    private String username;
+    private String password;
 
     @Column
     private String picture;
@@ -29,15 +30,17 @@ public class User {
     @Enumerated(EnumType.STRING) // Enum 타입은 문자열 형태로 저장해야 함
     private Role role;
 
-    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Item> items;
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(String name, String email, String picture, Role role, String username, String password) {
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
+        this.username = username;
+        this.password = password;
     }
 
     public User update(String name, String picture) {
