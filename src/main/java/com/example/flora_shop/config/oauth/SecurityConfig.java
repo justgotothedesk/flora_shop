@@ -29,8 +29,8 @@ public class SecurityConfig {
                         )
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
-                        .requestMatchers("/upload", "/comments/save").hasRole(String.valueOf(Role.USER)) // 기존 코드 : Role.USER.name()
-                        .requestMatchers("/login", "/register", "/login").permitAll()
+                        .requestMatchers("/comments/save").hasRole(String.valueOf(Role.USER)) // 기존 코드 : Role.USER.name(), String.valueOf(Role.USER)
+                        .requestMatchers("/login", "/register", "/login", "/upload").permitAll()
                         .requestMatchers("/oauth2/authorization/google").permitAll()
                         .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login", "/logout/*", "/posts/**", "/comments/**").permitAll()
                         .anyRequest().authenticated()

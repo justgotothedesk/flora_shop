@@ -58,7 +58,7 @@ public class HomeController {
 
     @PostMapping("/register")
     public String create(UserForm userForm) {
-        User user = new User(userForm.getName(), "none", "none", Role.USER, userForm.getUsername(), userForm.getPassword());
+        User user = new User(userForm.getName(), "null", "null", Role.USER, userForm.getUsername(), userForm.getPassword());
         userService.create(user);
 
         return "redirect:/";
@@ -66,6 +66,10 @@ public class HomeController {
 
     @GetMapping("/upload")
     public String uploadPage() {
+        if (httpSession.getAttribute("user") == null)
+        {
+            return "redirect:/login";
+        }
         return "upload";
     }
 }
