@@ -3,6 +3,8 @@ package com.example.flora_shop.service;
 import com.example.flora_shop.domain.Item;
 import com.example.flora_shop.repository.ItemRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +22,9 @@ public class ItemService {
 
     public Optional<Item> findByID(Long id) {
         return itemRepository.findById(id);
+    }
+
+    public List<Item> findAll() {
+        return itemRepository.findAll();
     }
 }

@@ -55,6 +55,23 @@
             margin-top: 0%;
             margin-left: 50%;
         }
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 80%;
+            margin: 20px auto 0;
+        }
+
+        li {
+            width: calc(23% - 20px);
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -64,14 +81,15 @@
 
 <section>
     <p1>환영합니다! 최신 상품을 확인하세요.</p1>
-    <!-- 여기에 상품 목록이나 다른 콘텐츠를 추가하세요. -->
 </section>
 
-<div style="position: absolute; top:7%; right: 10%;">
+<div style="position: absolute; top:1%; right: 2%;">
     <div th:if="${userName}">
         <label th:text="${userName} + '님'"></label>
+        <a th:href="@{/upload}" class="btn btn-info active" role="button">상품 등록</a>
+        <a th:href="@{/basket}" class="btn btn-info active" role="button">장바구니</a>
+        <a th:href="@{/mypage}" class="btn btn-info active" role="button">마이페이지</a>
         <a th:href="@{/logout}" class="btn btn-info active" role="button">로그아웃</a>
-        <a th:href="@{/upload}" class="btn btn-info active" role="button">상품 등록하기</a>
     </div>
     <div th:if="!${userName}">
         <a th:href="@{/login}" class="btn btn-primary me-2 active" role="button">로그인</a>
@@ -81,6 +99,15 @@
         <input class="form-control me-2" type="search" placeholder="검색어" aria-label="Search" name="keyword">
         <button class="btn btn-outline-success" type="submit">검색</button>
     </form>
+</div>
+
+<div th:if="${items}">
+    <ul>
+        <li th:each="item : ${items}">
+            <p th:text="${item.name}"></p>
+            <p th:text="${item.price}"></p>
+        </li>
+    </ul>
 </div>
 
 <div class="tail">
