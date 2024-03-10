@@ -89,11 +89,24 @@
       left: 50%;
       transform: translateX(-50%);
     }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+
+      height: 75px;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
 <header>
-  <h1>Flora_Shop</h1>
+  <h1 onclick="redirectToHome()">Flora_Shop</h1>
 </header>
 
 <div class="login-container">
@@ -114,4 +127,11 @@
 </div>
 
 </body>
+
+<script>
+  function redirectToHome() {
+    window.location.href = "/";
+  }
+</script>
+
 </html>

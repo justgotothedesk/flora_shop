@@ -15,32 +15,32 @@
     }
 
     h1 {
-      font-size: 2em; /* 큰 글자 크기 */
+      font-size: 2em;
       margin-bottom: 20px;
       margin-left: 10%;
       margin-top: 3%;
-      color: #333; /* 글자 색상 */
-      font-family: 'Times New Roman', serif; /* 글꼴 설정 */
-      text-shadow: 2px 2px 2px #888; /* 그림자 효과 */
-      letter-spacing: 2px; /* 글자 간격 */
-      text-transform: uppercase; /* 대문자 변환 */
+      color: #333;
+      font-family: 'Times New Roman', serif;
+      text-shadow: 2px 2px 2px #888;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     h2 {
-      font-size: 1.5em; /* 큰 글자 크기 */
+      font-size: 1.5em;
       margin-bottom: 20px;
-      color: #333; /* 글자 색상 */
-      font-family: 'Times New Roman', serif; /* 글꼴 설정 */
-      letter-spacing: 2px; /* 글자 간격 */
-      text-transform: uppercase; /* 대문자 변환 */
+      color: #333;
+      font-family: 'Times New Roman', serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
     nav {
       margin-bottom: 20px;
       margin-left: 9%;
-      color: #333; /* 글자 색상 */
-      font-family: 'Times New Roman', serif; /* 글꼴 설정 */
-      letter-spacing: 2px; /* 글자 간격 */
-      text-transform: uppercase; /* 대문자 변환 */
+      color: #333;
+      font-family: 'Times New Roman', serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .login-container {
@@ -50,7 +50,7 @@
       transform: translate(-50%, -50%);
       text-align: center;
       background-color: #fff;
-      padding: 40px; /* 크기 조절 */
+      padding: 40px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
@@ -63,12 +63,12 @@
     .login-container label {
       font-size: 1em;
       margin-bottom: 5px;
-      align-self: flex-start; /* 왼쪽 위에 배치 */
+      align-self: flex-start;
     }
 
     .login-container input {
-      padding: 10px; /* 크기 조절 */
-      margin-bottom: 20px; /* 간격 조절 */
+      padding: 10px;
+      margin-bottom: 20px;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
@@ -106,28 +106,43 @@
       left: 50%;
       transform: translateX(-50%);
     }
+
+    nav a {
+      text-decoration: none;
+      color: #000;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+
+      height: 75px;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
 <header>
-  <h1>Flora_Shop</h1>
+  <h1 onclick="redirectToHome()">Flora_Shop</h1>
 </header>
 
-<div style="display: flex;">
-
-  <!-- 왼쪽 메뉴 -->
+<div style="display: flex; margin-top: 5%">
   <nav style="width: 20%; padding: 20px;">
     <ul style="list-style: none; padding: 0;">
 
-      <!-- 마이 페이지 메뉴 항목들 -->
       <li><h2>마이 페이지</h2></li>
-      <li><a href="#">쇼핑 정보</a></li>
+      <li><p style="font-weight: 900;">쇼핑 정보</p></li>
       <li><a href="#">구매 내역</a></li>
       <li><a href="#">판매 내역</a></li>
       <li><a href="#">보관 판매</a></li>
       <li><a href="#">관심</a></li>
       <br>
-      <li><a href="#">내 정보</a></li>
+      <li><p style="font-weight: 900;">내 정보</p></li>
       <li><a href="#">로그인 정보</a></li>
       <li><a href="#">프로필 관리</a></li>
       <li><a href="#">주소록</a></li>
@@ -161,4 +176,11 @@
 </div>
 
 </body>
+
+<script>
+  function redirectToHome() {
+    window.location.href = "/";
+  }
+</script>
+
 </html>
