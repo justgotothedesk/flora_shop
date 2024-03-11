@@ -5,6 +5,7 @@ import com.example.flora_shop.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -21,5 +22,10 @@ public class CartItemService {
 
     public List<CartItem> findByCartID(Long id) {
         return cartItemRepository.findByCartId(id);
+    }
+
+    public void removeCartItem(Long id) {
+        CartItem temp = cartItemRepository.findByCartItemId(id);
+        cartItemRepository.delete(temp);
     }
 }

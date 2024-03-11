@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -19,9 +20,13 @@ public class CartController {
     private HttpSession httpSession;
     private CartItemService cartItemService;
 
-    @GetMapping("/")
+    @GetMapping("/cart")
     public String findCart(Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         Long temp = cartService.findByUserId(user.getId());
         if (temp != null) {
             List<CartItem> cartItems = cartItemService.findByCartID(temp);
@@ -29,5 +34,11 @@ public class CartController {
         }
 
         return "cart";
+    }
+
+    @GetMapping("/cart/remove/{cartItemId}")
+    public String removeCartItem(@PathVariable Long cartItemId) {
+        cartItemService.removeCartItem(cartItemId);
+        return "redirect:/cart";
     }
 }
