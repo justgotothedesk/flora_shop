@@ -81,10 +81,11 @@
             right: 0;
 
             height: 75px;
-            padding: 1rem;
+            padding: 0.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #f4f4f4;
         }
     </style>
 </head>
@@ -114,7 +115,7 @@
 <div>
     <p style="margin-top: 8%; margin-left: 11%; font-size: 1.2em">환영합니다! 최신 상품을 확인하세요.</p>
 </div>
-<div th:if="${items}" style="margin-top: 1%; margin-left: 1%; overflow-y: scroll; height: 300px;"> <!-- 조절 가능한 값 -->
+<div th:if="${items}" style="margin-top: 1%; margin-left: 1%; overflow-y: scroll; height: 300px;">
     <ul>
         <li th:each="item : ${items}">
             <p th:text="${item.name}"></p>

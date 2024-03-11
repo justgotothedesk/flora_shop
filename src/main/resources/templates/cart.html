@@ -119,10 +119,11 @@
             right: 0;
 
             height: 75px;
-            padding: 1rem;
+            padding: 0.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #f4f4f4;
         }
     </style>
 </head>
@@ -137,9 +138,9 @@
 
             <li><h2>마이 페이지</h2></li>
             <li><p style="font-weight: 900;">쇼핑 정보</p></li>
-            <li><a href="#">구매 내역</a></li>
+            <li><a href="/order">구매 내역</a></li>
             <li><a href="#">판매 내역</a></li>
-            <li><a th:href="@{/cart}" class="btn btn-info active" role="button">장바구니</a></li>
+            <li><a href="/cart">장바구니</a></li>
             <li><a href="#">관심</a></li>
             <br>
             <li><p style="font-weight: 900;">내 정보</p></li>
@@ -160,10 +161,15 @@
         <div th:if="${cartItems}" style="margin-top: 1%; margin-left: 1%; overflow-y: scroll; height: 300px;">
             <ul>
                 <li th:each="cartItem : ${cartItems}">
-                    <p th:text="${cartItems.}"></p>
-                    <p th:text="${item.price}"></p>
+                    <p th:text="${cartItem.item.name}"></p>
+                    <p th:text="${cartItem.item.price}"></p>
+                    <p th:text="${cartItem.count}"></p>
+                    <a th:href="@{/cart/remove/{cartItemId}(cartItemId=${cartItem.id})}" class="btn btn-danger">삭제</a>
                 </li>
             </ul>
+        </div>
+        <div th:if!="${cartItems}" style="margin-top: 1%; margin-left: 1%; overflow-y: scroll; height: 300px;">
+            <p>장바구니가 텅 비었어요</p>
         </div>
     </div>
 </div>
