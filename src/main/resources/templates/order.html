@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 주문 화면</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            font-size: 2em; /* 큰 글자 크기 */
+            margin-bottom: 20px;
+            margin-left: 10%;
+            margin-top: 3%;
+            color: #333; /* 글자 색상 */
+            font-family: 'Times New Roman', serif; /* 글꼴 설정 */
+            text-shadow: 2px 2px 2px #888; /* 그림자 효과 */
+            letter-spacing: 2px; /* 글자 간격 */
+            text-transform: uppercase; /* 대문자 변환 */
+        }
+
+        p1 {
+            font-size: 1.2em;
+            margin-left: 3%;
+            margin-top: 10%;
+        }
+
+        /* 추가된 스타일 */
+        .login-buttons {
+            position: absolute;
+            top: 7%;
+            right: 14%;
+            margin: 10px;
+        }
+
+        .tail {
+            position: absolute;
+            bottom: 1%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .login-buttons a {
+            margin-right: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 80%;
+            margin: 20px auto 0;
+        }
+
+        li {
+            width: calc(23% - 20px);
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 75px;
+            padding: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 onclick="redirectToHome()">Flora_Shop</h1>
+    <nav style="top:0.5%; right: 2%;">
+        <div th:if="${userName}">
+            <label th:text="${userName} + '님'"></label>
+            <a th:href="@{/upload}" class="btn btn-info active" role="button">상품등록</a>
+            <a th:href="@{/mypage}" class="btn btn-info active" role="button">마이페이지</a>
+            <a th:href="@{/logout}" class="btn btn-info active" role="button">로그아웃</a>
+        </div>
+        <div th:if="!${userName}">
+            <a th:href="@{/login}" class="btn btn-primary me-2 active" role="button">로그인</a>
+        </div>
+
+        <form class="d-flex" th:action="@{/search}" method="get">
+            <input class="form-control me-2" type="search" placeholder="검색어" aria-label="Search" name="keyword">
+            <button class="btn btn-outline-success" type="submit">검색</button>
+        </form>
+    </nav>
+</header>
+
+<main>
+    <div>
+        <p style="margin-top: 8%; margin-left: 11%; font-size: 1.2em">환영합니다! 최신 상품을 확인하세요.</p>
+    </div>
+    <div th:if="${item}" style="margin-top: 1%; margin-left: 1%; width: 50%;">
+        <p th:text="${item.name}" style="font-size: 1.5em; font-weight: bold;"></p>
+        <p th:text="${item.price}" style="font-size: 1.2em; color: #000000; margin-bottom: 10px;"></p>
+
+        <label for="quantity" style="font-size: 1.2em; margin-right: 10px;">수량:</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" style="padding: 5px; width: 50px;">
+
+        <form action="/item/purchase/${item.id}" method="post" style="display: inline-block; margin-right: 10px;">
+            <button type="submit" style="padding: 8px; background-color: #000000; color: white; border: none; border-radius: 5px; cursor: pointer;">구매</button>
+        </form>
+
+        <form action="/cart/add/${item.id}" method="post" style="display: inline-block;">
+            <button type="submit" style="padding: 8px; background-color: #3c4e54; color: white; border: none; border-radius: 5px; cursor: pointer;">장바구니에 담기</button>
+        </form>
+    </div>
+
+
+    <div class="tail">
+        <p>&copy; 2024 flora_shop. All right reserved.</p>
+    </div>
+</main>
+</body>
+
+<script>
+    function redirectToHome() {
+        window.location.href = "/";
+    }
+</script>
+
+</html>
