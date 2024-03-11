@@ -8,7 +8,11 @@ import com.example.flora_shop.service.ElasticItemService;
 import com.example.flora_shop.service.ItemService;
 import com.example.flora_shop.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -48,5 +52,30 @@ public class ItemController {
         elasticItemService.create(elasticItem);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/item/{itemId}")
+    public String showPurchaseItemPage(@PathVariable Long itemId, Model model) {
+        Optional<Item> optionalItem = itemService.findByID(itemId);
+        if (optionalItem.isPresent()) {
+            Item item = optionalItem.get();
+            model.addAttribute("item", item);
+
+            return "order";
+        }
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/item/purchase/{itemId}")
+    public String purchaseItem(@PathVariable Long itemId, @RequestParam int quantity, Model model) {
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect/login";
+        }
+
+        model.addAttribute("purchaseMessage", "상품을 구매했습니다.");
+
+        return "purchaseResult";
     }
 }

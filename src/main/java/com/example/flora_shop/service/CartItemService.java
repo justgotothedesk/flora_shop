@@ -8,14 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class CartItemService {
-    @Autowired
-    private CartItemRepository cartItemRepository;
+    private final CartItemRepository cartItemRepository;
 
-    public Long save(CartItem cartItem) {
+    public CartItemService(CartItemRepository cartItemRepository) {
+        this.cartItemRepository = cartItemRepository;
+    }
+
+    public Long create(CartItem cartItem) {
         cartItemRepository.save(cartItem);
         return cartItem.getId();
     }
@@ -25,7 +29,7 @@ public class CartItemService {
     }
 
     public void removeCartItem(Long id) {
-        CartItem temp = cartItemRepository.findByCartItemId(id);
-        cartItemRepository.delete(temp);
+        Optional<CartItem> temp = cartItemRepository.findById(id);
+        cartItemRepository.delete(temp.get());
     }
 }

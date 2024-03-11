@@ -12,17 +12,21 @@ import java.util.Optional;
 @Service
 @Transactional
 public class CartService {
-    @Autowired
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
+
+    public CartService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
 
     public Long create(Cart cart) {
         cartRepository.save(cart);
         return cart.getId();
     }
 
-    public Long findByUserId(Long id) {
+    public Optional<Cart> findByUserId(Long id) {
         Optional<Cart> cartOptional = cartRepository.findByUserId(id);
-        return cartOptional.map(Cart::getId).orElse(null);
+        return cartOptional;
+        //return cartOptional.map(Cart::getId).orElse(null);
 //        if (cartOptional.isPresent()) {
 //            return cartOptional.get().getId();
 //        }
