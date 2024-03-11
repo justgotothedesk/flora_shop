@@ -1,9 +1,11 @@
 package com.example.flora_shop.controller;
 
 import com.example.flora_shop.config.oauth.SessionUser;
+import com.example.flora_shop.domain.Cart;
 import com.example.flora_shop.domain.Item;
 import com.example.flora_shop.domain.Role;
 import com.example.flora_shop.domain.User;
+import com.example.flora_shop.service.CartService;
 import com.example.flora_shop.service.ItemService;
 import com.example.flora_shop.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -22,11 +24,13 @@ public class HomeController {
     private final HttpSession httpSession;
     private final UserService userService;
     private final ItemService itemService;
+    private final CartService cartService;
 
-    public HomeController(HttpSession httpSession, UserService userService, ItemService itemService) {
+    public HomeController(HttpSession httpSession, UserService userService, ItemService itemService, CartService cartService) {
         this.httpSession = httpSession;
         this.userService = userService;
         this.itemService = itemService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/")
@@ -69,6 +73,10 @@ public class HomeController {
     public String create(UserForm userForm) {
         User user = new User(userForm.getName(), "null", "null", Role.USER, userForm.getUsername(), userForm.getPassword());
         userService.create(user);
+
+        Cart cart = new Cart();
+        cart.setUser(user);
+        cartService.create(cart);
 
         return "redirect:/";
     }

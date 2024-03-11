@@ -118,8 +118,10 @@
 <div th:if="${items}" style="margin-top: 1%; margin-left: 1%; overflow-y: scroll; height: 300px;">
     <ul>
         <li th:each="item : ${items}">
-            <p th:text="${item.name}"></p>
-            <p th:text="${item.price}"></p>
+            <a th:href="@{/item/{itemId}(itemId=${item.id})}" style="text-decoration: none; color: inherit;">
+                <p th:text="${item.name}"></p>
+                <p th:text="${item.price}"></p>
+            </a>
         </li>
     </ul>
 </div>
