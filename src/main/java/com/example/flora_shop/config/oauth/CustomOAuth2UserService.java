@@ -1,7 +1,9 @@
 package com.example.flora_shop.config.oauth;
 
+import com.example.flora_shop.domain.Cart;
 import com.example.flora_shop.domain.User;
 import com.example.flora_shop.repository.UserRepository;
+import com.example.flora_shop.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +24,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final UserRepository userRepository;
     private final HttpSession httpSession;
+    private final CartService cartService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -54,13 +58,29 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 attributes.getNameAttributeKey());
     }
 
-    private User saveOrUpdate(OAuthAttributes attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
-                // 구글 사용자 정보 업데이트(이미 가입된 사용자) => 업데이트
-                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
-                // 가입되지 않은 사용자 => User 엔티티 생성
-                .orElse(attributes.toEntity());
+//    private User saveOrUpdate(OAuthAttributes attributes) {
+//        User user = userRepository.findByEmail(attributes.getEmail())
+//                // 구글 사용자 정보 업데이트(이미 가입된 사용자) => 업데이트
+//                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+//                // 가입되지 않은 사용자 => User 엔티티 생성
+//                .orElse(attributes.toEntity());
+//
+//        return userRepository.save(user);
+//    }
 
-        return userRepository.save(user);
+    public User saveOrUpdate(OAuthAttributes attributes) {
+        User user = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+                .orElseGet(() -> {
+                    User newUser = attributes.toEntity();
+                    userRepository.save(newUser);
+
+                    Cart cart = new Cart();
+                    cart.setUser(newUser);
+                    cartService.create(cart);
+                    return newUser;
+                });
+
+        return user;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.flora_shop.config.oauth;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,14 +31,22 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/comments/save").hasRole(String.valueOf(Role.USER)) // 기존 코드 : Role.USER.name(), String.valueOf(Role.USER)
-                        .requestMatchers("/login", "/register", "/login", "/upload", "/mypage", "/cart").permitAll()
+                        .requestMatchers("/login", "/register", "/login", "/upload", "/mypage", "/cart/**", "/item/**", "/item/purchase/**").permitAll()
                         .requestMatchers("/oauth2/authorization/google").permitAll()
                         .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login", "/logout/*", "/posts/**", "/comments/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout( // 로그아웃 성공 시 / 주소로 이동
-                        (logoutConfig) -> logoutConfig.logoutSuccessUrl("/")
-                )
+                .logout(logoutConfig -> {
+                    logoutConfig
+                            .logoutSuccessHandler((request, response, authentication) -> {
+                                HttpSession session = request.getSession(false);
+                                if (session != null) {
+                                    session.invalidate();
+                                }
+                                response.sendRedirect("/");
+                            })
+                            .permitAll();
+                })
 
                 // OAuth2 로그인 기능에 대한 여러 설정
                 .oauth2Login(oauth2Login ->
