@@ -81,6 +81,6 @@ public class CartController {
 
         model.addAttribute("cartMessage", "장바구니에 상품을 추가했습니다.");
 
-        return "cartResult";
+        return "redirect:/";
     }
 }

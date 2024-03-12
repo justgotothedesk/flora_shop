@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,9 +31,11 @@ public class SecurityConfig {
                         )
                 )
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
-                        .requestMatchers("/comments/save").hasRole(String.valueOf(Role.USER)) // 기존 코드 : Role.USER.name(), String.valueOf(Role.USER)
-                        .requestMatchers("/login", "/register", "/login", "/upload", "/mypage", "/cart/**", "/item/**", "/item/purchase/**").permitAll()
+                        .requestMatchers("/comments/save").hasRole(Role.USER.name()) // 기존 코드 : Role.USER.name(), String.valueOf(Role.USER)
+                        .requestMatchers("/login", "/register", "/login", "/upload", "/mypage", "/cart/**", "/item/**").permitAll()
                         .requestMatchers("/oauth2/authorization/google").permitAll()
+                        .requestMatchers("/purchase").permitAll()
+                        .requestMatchers("/purchase/**", "/b").permitAll()
                         .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login", "/logout/*", "/posts/**", "/comments/**").permitAll()
                         .anyRequest().authenticated()
                 )

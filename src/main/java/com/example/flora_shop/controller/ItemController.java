@@ -1,11 +1,10 @@
 package com.example.flora_shop.controller;
 
 import com.example.flora_shop.config.oauth.SessionUser;
-import com.example.flora_shop.domain.ElasticItem;
-import com.example.flora_shop.domain.Item;
-import com.example.flora_shop.domain.User;
+import com.example.flora_shop.domain.*;
 import com.example.flora_shop.service.ElasticItemService;
 import com.example.flora_shop.service.ItemService;
+import com.example.flora_shop.service.OrderService;
 import com.example.flora_shop.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +23,14 @@ public class ItemController {
     private final ItemService itemService;
     private final HttpSession httpSession;
     private final UserService userService;
+    private final OrderService orderService;
 
-    public ItemController(ElasticItemService elasticItemService, ItemService itemService, HttpSession httpSession, UserService userService) {
+    public ItemController(ElasticItemService elasticItemService, ItemService itemService, HttpSession httpSession, UserService userService, OrderService orderService) {
         this.elasticItemService = elasticItemService;
         this.itemService = itemService;
         this.httpSession = httpSession;
         this.userService = userService;
+        this.orderService = orderService;
     }
 
     @PostMapping("/upload")
@@ -56,6 +57,10 @@ public class ItemController {
 
     @GetMapping("/item/{itemId}")
     public String showPurchaseItemPage(@PathVariable Long itemId, Model model) {
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+        }
         Optional<Item> optionalItem = itemService.findByID(itemId);
         if (optionalItem.isPresent()) {
             Item item = optionalItem.get();
@@ -67,15 +72,53 @@ public class ItemController {
         return "redirect:/";
     }
 
-    @PostMapping("/item/purchase/{itemId}")
-    public String purchaseItem(@PathVariable Long itemId, @RequestParam int quantity, Model model) {
+    @PostMapping("/a")
+    public String temp() {
+
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/b")
+    public String temp2() {
+        return "redirect:/";
+    }
+
+    @PostMapping("/purchase")
+    public String create(ItemForm itemForm) {
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         if (sessionUser == null) {
-            return "redirect/login";
+            return "redirect:/login";
         }
+        System.out.println(itemForm.getQuantity());
+        System.out.println(itemForm.getId());
 
-        model.addAttribute("purchaseMessage", "상품을 구매했습니다.");
+        return "redirect:/";
+    }
 
-        return "purchaseResult";
+    @PostMapping("/item/purchase")
+    public String purchaseItem(@RequestParam Long itemId, @RequestParam int quantity, Model model) {
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+        return "redirect:/";
+
+//        Optional<Item> optionalItem = itemService.findByID(itemId);
+//        Optional<User> optionalUser = userService.findByID(sessionUser.getId());
+//
+//        if (optionalItem.isPresent() && optionalUser.isPresent()) {
+//            Item item = optionalItem.get();
+//            User user = optionalUser.get();
+//            Order order = new Order();
+//            order.setItem(item);
+//            order.setUser(user);
+//            order.setCount((long) quantity);
+//            orderService.create(order);
+//
+//            model.addAttribute("order", order);
+//        }
+//
+//        return "OrderResult";
     }
 }
