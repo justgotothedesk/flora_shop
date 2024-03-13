@@ -1,5 +1,6 @@
 package com.example.flora_shop.config.oauth;
 
+import co.elastic.clients.elasticsearch.nodes.Http;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,8 +35,9 @@ public class SecurityConfig {
                         .requestMatchers("/comments/save").hasRole(Role.USER.name()) // 기존 코드 : Role.USER.name(), String.valueOf(Role.USER)
                         .requestMatchers("/login", "/register", "/login", "/upload", "/mypage", "/cart/**", "/item/**").permitAll()
                         .requestMatchers("/oauth2/authorization/google").permitAll()
-                        .requestMatchers("/purchase").permitAll()
-                        .requestMatchers("/purchase/**", "/b").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/purchase", "/cartadd").permitAll()
+                        .requestMatchers("/purchase", "/cartadd").permitAll()
+                        .requestMatchers("/purchase/**", "/cartadd/**").permitAll()
                         .requestMatchers("/", "/css/**", "images/**", "/js/**", "/login", "/logout/*", "/posts/**", "/comments/**").permitAll()
                         .anyRequest().authenticated()
                 )
