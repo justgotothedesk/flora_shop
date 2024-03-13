@@ -32,4 +32,8 @@ public class CartItemService {
         Optional<CartItem> temp = cartItemRepository.findById(id);
         cartItemRepository.delete(temp.get());
     }
+
+    public Optional<CartItem> findByCartIdAndItemId(Long CartId, Long ItemId) {
+        return cartItemRepository.findByCartIdAndItemId(CartId, ItemId);
+    }
 }
