@@ -96,16 +96,51 @@ public class ItemController {
             Item item = optionalItem.get();
             User user = optionalUser.get();
 
-            Order order = new Order();
-            order.setCount(quantity);
-            order.setItem(item);
-            order.setUser(user);
-            orderService.create(order);
+            model.addAttribute("item", item);
+            model.addAttribute("user", user);
+            model.addAttribute("quantity", quantity);
 
-            model.addAttribute("order", order);
+            return "searchAddress";
         }
 
-        return "OrderResult";
+        return "redirect:/";
+    }
+
+    @PostMapping("/purchase/complete")
+    public String purchaseComplete(AddressForm addressForm, Model model) {
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        } else {
+            model.addAttribute("userName", sessionUser.getName());
+        }
+        Long quantity = addressForm.getQuantity();
+        Long itemId = addressForm.getItemId();
+
+        Optional<Item> optionalItem = itemService.findByID(itemId);
+        Optional<User> optionalUser = userService.findByID(sessionUser.getId());
+
+        if (optionalItem.isPresent() && optionalUser.isPresent()) {
+            Item item = optionalItem.get();
+            User user = optionalUser.get();
+
+            Order order = new Order();
+            order.setUser(user);
+            order.setItem(item);
+            order.setCount(quantity);
+            order.setDetailAddress(addressForm.getDetailAddress());
+            order.setRoadAddress(addressForm.getRoadAddress());
+            order.setJibunAddress(addressForm.getJibunAddress());
+            order.setExtraAddress(addressForm.getExtraAddress());
+            order.setPostcode(addressForm.getPostcode());
+
+            orderService.create(order);
+            model.addAttribute("order", order);
+
+            return "OrderResult";
+        }
+
+        return "redirect:/";
     }
 
     @PostMapping("/cartadd")

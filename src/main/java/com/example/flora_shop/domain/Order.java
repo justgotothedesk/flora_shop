@@ -22,4 +22,10 @@ public class Order {
     private Item item;
 
     private Long count;
+
+    private String postcode;
+    private String roadAddress;
+    private String jibunAddress;
+    private String extraAddress;
+    private String detailAddress;
 }

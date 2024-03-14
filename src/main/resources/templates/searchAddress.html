@@ -97,20 +97,20 @@
     <p th:text="${quantity}">주문 수량 : </p>
     <p th:text="${user.name}">주문자명 : </p>
     <hr>
-    <form action="/purchase" method="post">
+    <form action="/purchase/complete" method="post">
         <label for="useSameAddress">다음에도 이 주소 사용</label>
         <input type="radio" id="useSameAddress" name="useSameAddress" value="yes">
         <label for="useSameAddress"></label><br>
         <input type="hidden" id="itemId" name="itemId" th:value="${item.id}">
         <input type="hidden" id="userId" name="userId" th:value="${user.id}">
         <input type="hidden" id="quantity" name="quantity" th:value="${quantity}">
-        <input type="text" id="postcode" placeholder="우편번호" disabled>
+        <input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly>
         <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" id="roadAddress" placeholder="도로명주소" disabled>
-        <input type="text" id="jibunAddress" placeholder="지번주소" disabled>
+        <input type="text" id="roadAddress" name="roadAddress" placeholder="도로명주소" readonly>
+        <input type="text" id="jibunAddress" name="jibunAddress" placeholder="지번주소" readonly>
         <span id="guide" style="color:#999;display:none"></span>
-        <input type="text" id="extraAddress" placeholder="참고항목"><br>
-        <input type="text" id="detailAddress" placeholder="상세주소(동, 호수)">
+        <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목"><br>
+        <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소(동, 호수)">
         <input type="submit" value="주문하기">
     </form>
 </div>
@@ -176,6 +176,14 @@
             }
         }).open();
     }
+
+    function redirectToHome() {
+        window.location.href = "/";
+    }
 </script>
+
+<div class="tail">
+    <p>&copy; 2024 flora_shop. All right reserved.</p>
+</div>
 </body>
 </html>
